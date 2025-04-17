@@ -1,0 +1,7 @@
+### Send a WebSocket notification
+POST http://localhost:3000/api/notify
+Content-Type: application/json
+
+{
+  "message": "Hello, WebSocket clients!"
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <div>
+        <label for="message">Message to send:</label>
+        <input type="text" id="message" placeholder="Type your message here">
+        <button id="sendButton">Send</button>
+    </div>
+    <div>
+        <h2>Messages:</h2>
+        <ul id="messages"></ul>
+    </div>
+
+    <script>
+        // Connect to the WebSocket server
+        const ws = new WebSocket('ws://localhost:3000');
+
+        // Log connection status
+        ws.onopen = () => {
+            console.log('Connected to WebSocket server');
+            const messagesList = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = 'Connected to WebSocket server';
+            messagesList.appendChild(li);
+        };
+
+        // Log received messages
+        ws.onmessage = (event) => {
+            console.log('Message from server:', event.data);
+            const messagesList = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = `Server: ${event.data}`;
+            messagesList.appendChild(li);
+        };
+
+        // Log disconnection
+        ws.onclose = () => {
+            console.log('Disconnected from WebSocket server');
+            const messagesList = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = 'Disconnected from WebSocket server';
+            messagesList.appendChild(li);
+        };
+
+        // Log errors
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+            const messagesList = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = 'WebSocket error occurred';
+            messagesList.appendChild(li);
+        };
+
+        // Send a message to the server in JSON format
+        document.getElementById('sendButton').addEventListener('click', () => {
+            const messageInput = document.getElementById('message');
+            const message = messageInput.value;
+            if (message) {
+                // Construct the message as a JSON object
+                const jsonMessage = JSON.stringify({ message });
+                ws.send(jsonMessage);
+                console.log('Sent to server:', jsonMessage);
+
+                // Display the sent message in the UI
+                const messagesList = document.getElementById('messages');
+                const li = document.createElement('li');
+                li.textContent = `You: ${jsonMessage}`;
+                messagesList.appendChild(li);
+
+                // Clear the input field
+                messageInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

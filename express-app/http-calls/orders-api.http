@@ -1,0 +1,34 @@
+### Create a new order
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+X-Tenant-ID: tenant1
+
+{
+  "user": "67f7cfd42505072039253ee1",
+  "products": [
+    {
+      "product": "67f7cfe82505072039253ee7",
+      "quantity": 2
+    },
+    {
+      "product": "67f7cfe82505072039253ee7",
+      "quantity": 1
+    }
+  ],
+  "totalAmount": 69.97,
+  "status": "pending"
+}
+
+###
+
+### Get all orders
+GET http://localhost:3000/api/orders
+Content-Type: application/json
+X-Tenant-ID: tenant1
+
+###
+
+### Get a single order by ID
+GET http://localhost:3000/api/orders/{{orderId}}
+Content-Type: application/json
+X-Tenant-ID: tenant1
